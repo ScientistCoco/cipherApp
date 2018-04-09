@@ -7,9 +7,9 @@ This is a cipher app that allows you to encode your message in one of the follow
 <li> Vigenere cipher </li>
 </ul>
 
-Main screen:
+Main screen:<br>
 <img src = "https://i.imgur.com/jvxIyko.png" width = "50%" height = "50%">
 
-One of the cipher screens:
+One of the cipher screens:<br>
 <img src = "https://i.imgur.com/6hETxJ9.png" width = "50%" height = "50%">
 
