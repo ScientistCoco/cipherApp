@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.court.cipherapp.caesarCipher"
+    android:background = "#3d4859">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:layout_marginHorizontal="20dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background = "#e1e6ef"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="start"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:orientation="vertical"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
+
+                <TextView
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Enter the text you wish to encode:"
+                    />
+
+                <EditText
+                    android:id="@+id/encodeTextInput"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:hint=""
+                    android:scrollbars = "vertical"
+                    android:maxLines="5"
+                    android:minHeight="150dp"
+                    android:maxHeight="150dp"
+                    android:minLines="1"
+                    android:scrollIndicators="right"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background = "#e1e6ef"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop = "20dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Shift: "/>
+
+                <TextView
+                    android:id="@+id/shiftInput"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1"/>
+
+            </LinearLayout>
+
+            <SeekBar
+
+                android:id="@+id/caesarSeek"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical= "20dp"
+                android:layout_marginHorizontal="10dp"
+                android:max="25"
+                android:progress="0"
+                android:progressTint="#4286f4"
+                android:thumbTint="@android:color/holo_blue_dark"
+                />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/encodeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text = "Encode"
+            android:layout_marginTop = "20dp"/>
+
+    </LinearLayout>
+</LinearLayout>

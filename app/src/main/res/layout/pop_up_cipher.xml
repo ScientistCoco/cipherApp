@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="400dp"
+    android:background="@android:color/white"
+    android:padding="5dp"
+    android:layout_gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="10dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="The encoded text is:"
+            android:textStyle="bold"
+            android:layout_weight="30"
+            android:layout_marginTop="10dp"/>
+        <TextView
+            android:id="@+id/x_close_btn"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:text="X"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:gravity="right"
+            android:background="@drawable/circle_x_btn"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/cipherResult"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        />
+
+</LinearLayout>
