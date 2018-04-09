@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
 
 public class substitutionCipher extends AppCompatActivity {
@@ -32,26 +33,30 @@ public class substitutionCipher extends AppCompatActivity {
                 if (!encodeTextInput.getText().toString().isEmpty()){
                     // Now we check if the user has put in a key for us to use
                     // if not then we have to generate one for them
-                    // TODO We also have to check that the key that the user used is unique and contains 26 letters
                     if (keyInput.getText().toString().isEmpty()){
                         keyInput.setText(generateKey());
                         Toast.makeText(getApplicationContext(), "Key randomly generated for you", Toast.LENGTH_SHORT).show();
                     }
-                    String encodedText = encrypt(encodeTextInput.getText().toString(), keyInput.getText().toString());
+                    // If the user enters a key we need to check that the key they entered is unique and
+                    // contains 26 letters
+                    if (check_unique_key(keyInput.getText().toString()) == false){
+                        Toast.makeText(getApplicationContext(), "The key you entered contains duplicate letters or is not 26 characters long", Toast.LENGTH_SHORT).show();
+                    } else {
+                        String encodedText = encrypt(encodeTextInput.getText().toString(), keyInput.getText().toString());
 
-                    pop_up_box.setContentView(R.layout.pop_up_cipher);
-                    TextView subResult = pop_up_box.findViewById(R.id.cipherResult);
-                    subResult.setText(encodedText);
-                    pop_up_box.show();
+                        pop_up_box.setContentView(R.layout.pop_up_cipher);
+                        TextView subResult = pop_up_box.findViewById(R.id.cipherResult);
+                        subResult.setText(encodedText);
+                        pop_up_box.show();
 
-                    TextView x_close = pop_up_box.findViewById(R.id.x_close_btn);
-                    x_close.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            pop_up_box.dismiss();
-                        }
-                    });
-
+                        TextView x_close = pop_up_box.findViewById(R.id.x_close_btn);
+                        x_close.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                pop_up_box.dismiss();
+                            }
+                        });
+                    }
                 } else {
                     Toast.makeText(getApplication(), "You need to put in an input!", Toast.LENGTH_SHORT).show();
                 }
@@ -64,6 +69,22 @@ public class substitutionCipher extends AppCompatActivity {
     public void finish(){
         super.finish();
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+
+    private static Boolean check_unique_key (String key){
+        HashSet<Character> _set = new HashSet<>();
+
+        // Check the length of key is at 26 characters:
+        if (key.length() != 26){
+            return false;
+        }
+
+        for (int i = 0; i < key.length(); i++){
+            if (_set.add(key.charAt(i)) == false){
+                return false;
+            }
+        }
+        return true;
     }
 
     private static String generateKey(){

@@ -70,7 +70,8 @@
                 android:layout_marginHorizontal="10dp"
                 android:inputType="textShortMessage"
                 android:singleLine="true"
-                android:maxLength="26"/>
+                android:maxLength="26"
+                android:digits="abcdefghijklmnopqrstuvwxyz"/>
 
         </LinearLayout>
 
