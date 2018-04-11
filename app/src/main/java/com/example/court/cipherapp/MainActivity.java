@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
         Button railBtn = findViewById(R.id.railBtn);
         Button vigenereBtn = findViewById(R.id.vigenereBtn);
         Button playfairBtn = findViewById(R.id.playfairBtn);
+        Button decodeCaesar = findViewById(R.id.decodeCaesar);
 
         caesarBtn.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -59,6 +60,14 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, playFairCipher.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            }
+        });
+
+        decodeCaesar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, CaesarDecode.class);
+                startActivity(intent);
             }
         });
     }

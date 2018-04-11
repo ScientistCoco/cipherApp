@@ -1,6 +1,9 @@
 package com.example.court.cipherapp;
 
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -45,7 +48,7 @@ public class substitutionCipher extends AppCompatActivity {
                         String encodedText = encrypt(encodeTextInput.getText().toString(), keyInput.getText().toString());
 
                         pop_up_box.setContentView(R.layout.pop_up_cipher);
-                        TextView subResult = pop_up_box.findViewById(R.id.cipherResult);
+                        final TextView subResult = pop_up_box.findViewById(R.id.cipherResult);
                         subResult.setText(encodedText);
                         pop_up_box.show();
 
@@ -54,6 +57,17 @@ public class substitutionCipher extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
                                 pop_up_box.dismiss();
+                            }
+                        });
+
+                        TextView copy_btn = pop_up_box.findViewById(R.id.copy_text);
+                        copy_btn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                ClipboardManager clipboard = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
+                                ClipData clip = ClipData.newPlainText("text", subResult.getText().toString());
+                                clipboard.setPrimaryClip(clip);
+                                Toast.makeText(substitutionCipher.this, "Copied to clipboard!", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }

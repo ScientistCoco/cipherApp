@@ -71,4 +71,16 @@
         android:paddingRight = "50dp"
         android:background="#1FFF"
         android:textColor="@android:color/white"/>
+
+    <Button
+        android:id="@+id/decodeCaesar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="10"
+        android:text = "Decode Caesar Cipher"
+        android:drawableRight="@drawable/ic_keyboard_arrow_right_white_24dp"
+        android:paddingLeft = "50dp"
+        android:paddingRight = "50dp"
+        android:background="#1FFF"
+        android:textColor="@android:color/white"/>
 </LinearLayout>

@@ -1,6 +1,9 @@
 package com.example.court.cipherapp;
 
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -33,7 +36,7 @@ public class playFairCipher extends AppCompatActivity {
                         String result = playfairCipher(message.getText().toString(), (create_key_table(key.getText().toString())));
 
                         pop_up_result.setContentView(R.layout.pop_up_cipher);
-                        TextView playFairResult = pop_up_result.findViewById(R.id.cipherResult);
+                        final TextView playFairResult = pop_up_result.findViewById(R.id.cipherResult);
                         playFairResult.setText(result);
 
                         pop_up_result.show();
@@ -43,6 +46,17 @@ public class playFairCipher extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
                                 pop_up_result.dismiss();
+                            }
+                        });
+
+                        TextView copy_btn = pop_up_result.findViewById(R.id.copy_text);
+                        copy_btn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                ClipboardManager clipboard = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
+                                ClipData clip = ClipData.newPlainText("text", playFairResult.getText().toString());
+                                clipboard.setPrimaryClip(clip);
+                                Toast.makeText(playFairCipher.this, "Copied to clipboard!", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }

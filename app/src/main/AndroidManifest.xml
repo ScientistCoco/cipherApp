@@ -26,6 +26,9 @@
         <activity android:name=".railCipher" android:label = "Transposition Cipher"/>
         <activity android:name=".vigenereCipher" android:label = "Vigenere Cipher"/>
         <activity android:name=".playFairCipher" android:label ="Playfair Cipher"></activity>
+
+        // Delete this line later when you add fragments
+        <activity android:name=".CaesarDecode" android:label = "Decode Caesar"></activity>
     </application>
 
 </manifest>

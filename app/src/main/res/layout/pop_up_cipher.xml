@@ -15,12 +15,20 @@
         >
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="210dp"
             android:layout_height="30dp"
             android:text="The encoded text is:"
             android:textStyle="bold"
-            android:layout_weight="30"
             android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:id = "@+id/copy_text"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop = "10dp"
+            android:background="@drawable/ic_content_copy_black_18dp"/>
+
         <TextView
             android:id="@+id/x_close_btn"
             android:layout_width="20dp"
@@ -30,6 +38,7 @@
             android:textColor="@android:color/black"
             android:textStyle="bold"
             android:gravity="right"
+            android:layout_marginTop = "10dp"
             android:background="@drawable/circle_x_btn"/>
 
     </LinearLayout>

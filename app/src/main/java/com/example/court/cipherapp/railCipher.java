@@ -1,6 +1,8 @@
 package com.example.court.cipherapp;
 
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -59,7 +61,7 @@ public class railCipher extends AppCompatActivity {
                         String result = railFenceCipher(encodeTextInput.getText().toString(), Integer.parseInt(railInput.getText().toString()), getApplicationContext());
 
                         pop_up_result.setContentView(R.layout.pop_up_cipher);
-                        TextView railResult = pop_up_result.findViewById(R.id.cipherResult);
+                        final TextView railResult = pop_up_result.findViewById(R.id.cipherResult);
                         railResult.setText(result);
                         pop_up_result.show();
 
@@ -68,6 +70,17 @@ public class railCipher extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
                                 pop_up_result.dismiss();
+                            }
+                        });
+
+                        TextView copy_btn = pop_up_result.findViewById(R.id.copy_text);
+                        copy_btn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                ClipboardManager clipboard = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
+                                ClipData clip = ClipData.newPlainText("text", railResult.getText().toString());
+                                clipboard.setPrimaryClip(clip);
+                                Toast.makeText(railCipher.this, "Copied to clipboard!", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }

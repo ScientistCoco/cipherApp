@@ -1,6 +1,9 @@
 package com.example.court.cipherapp;
 
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,9 +17,9 @@ import android.widget.Toast;
 // If a user puts in numbers should these numbers also be shifted?
 
 public class caesarCipher extends AppCompatActivity {
-    Dialog myDialog;
-    TextView shiftInput;
-    EditText encodeTextInput;
+    private Dialog myDialog;
+    private TextView shiftInput;
+    private EditText encodeTextInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +63,8 @@ public class caesarCipher extends AppCompatActivity {
                     String result = caesarEncode(textInput, shiftValue);
 
                     myDialog.setContentView(R.layout.pop_up_cipher);
-                    TextView caesarResult = myDialog.findViewById(R.id.cipherResult);
+                    final TextView caesarResult = myDialog.findViewById(R.id.cipherResult);
+
                     caesarResult.setText(result);
                     myDialog.show();
 
@@ -69,6 +73,17 @@ public class caesarCipher extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
                             myDialog.dismiss();
+                        }
+                    });
+
+                    TextView copy_btn = myDialog.findViewById(R.id.copy_text);
+                    copy_btn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            ClipboardManager clipboard = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
+                            ClipData clip = ClipData.newPlainText("text", caesarResult.getText().toString());
+                            clipboard.setPrimaryClip(clip);
+                            Toast.makeText(caesarCipher.this, "Copied to clipboard!", Toast.LENGTH_SHORT).show();
                         }
                     });
 
