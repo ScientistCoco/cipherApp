@@ -1,8 +1,22 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background = "#3d4859">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#3d4859">
+    #6FC0C0C0
+    <!---->
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="2dp"
+        android:visibility="invisible"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,24 +42,48 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true">
 
-                <TextView
-                    android:layout_marginTop="20dp"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Enter the text you wish to decode:"
-                    />
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_marginTop="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="100"
+                        android:text="Enter the text you wish to decode:"
+                        />
 
+                    <TextView
+                        android:id="@+id/clear_btn"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="0"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/ic_delete_sweep_black_18dp"
+                        android:layout_marginRight="15dp"/>
+
+                    <TextView
+                        android:id="@+id/paste_btn"
+                        android:layout_marginTop="11dp"
+                        android:layout_width="28dp"
+                        android:layout_weight="0"
+                        android:layout_height="28dp"
+                        android:background="@drawable/ic_content_paste_black_18dp"/>
+
+                </LinearLayout>
                 <EditText
                     android:id="@+id/decodeTextInput"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    android:hint=""
+                    android:hint=" "
                     android:scrollbars = "vertical"
-                    android:maxLines="8"
-                    android:minHeight="300dp"
-                    android:maxHeight="300dp"
-                    android:minLines="1"
-                    android:scrollIndicators="right"/>
+                    android:maxLines="14"
+                    android:minHeight="350dp"
+                    android:maxHeight="350dp"
+                    android:scrollIndicators="right"
+                    android:gravity="top"
+                    />
 
             </LinearLayout>
 
@@ -58,4 +96,4 @@
             android:text = "Decode"
             android:layout_marginTop = "20dp"/>
     </LinearLayout>
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

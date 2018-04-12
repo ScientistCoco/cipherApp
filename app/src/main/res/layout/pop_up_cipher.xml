@@ -15,30 +15,33 @@
         >
 
         <TextView
-            android:layout_width="210dp"
+            android:layout_width="wrap_content"
+            android:layout_weight="100"
             android:layout_height="30dp"
-            android:text="The encoded text is:"
+            android:text="Result:"
+            android:textSize="18sp"
             android:textStyle="bold"
             android:layout_marginTop="10dp"/>
 
         <TextView
             android:id = "@+id/copy_text"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop = "10dp"
+            android:layout_marginTop = "2dp"
             android:background="@drawable/ic_content_copy_black_18dp"/>
 
         <TextView
             android:id="@+id/x_close_btn"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:text="X"
+            android:textSize="20dp"
             android:textAlignment="center"
             android:textColor="@android:color/black"
             android:textStyle="bold"
-            android:gravity="right"
-            android:layout_marginTop = "10dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop = "9dp"
             android:background="@drawable/circle_x_btn"/>
 
     </LinearLayout>
@@ -48,6 +51,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="10dp"
+        android:textSize="18sp"
+        android:scrollbars="vertical"
         />
 
 </LinearLayout>

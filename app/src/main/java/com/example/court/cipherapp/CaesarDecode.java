@@ -1,11 +1,22 @@
 package com.example.court.cipherapp;
 
+import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -14,38 +25,81 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.Scanner;
 
 public class CaesarDecode extends AppCompatActivity{
     private static EditText cipherText;
+    private static DatabaseHelper db;
+    private static Button decode_btn;
+    private boolean loadingData = false;
+    ProgressBar progress_bar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.decode_text);
 
-        Button decode_btn = findViewById(R.id.decodeButton);
+        decode_btn = findViewById(R.id.decodeButton);
+        TextView paste_btn = findViewById(R.id.paste_btn);
+        TextView clear_btn = findViewById(R.id.clear_btn);
         cipherText = findViewById(R.id.decodeTextInput);
+        progress_bar = findViewById(R.id.progress_bar);
+        db = new DatabaseHelper(this);
 
-        //TODO make a progress bar, asynctask that runs in the background so the app doesn't crash while doing calculations
         decode_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!cipherText.getText().toString().isEmpty()){
-                    Log.i("Received", cipherText.getText().toString());
-                    try {
-                        int key = determine_best_key(cipherText.getText().toString());
-                    }
-                    catch (IOException e){
-                        Log.i("Error", "problem reading the file");
+                    Decode_caesar_text task = new Decode_caesar_text();
+                    if (loadingData == false) {
+                        task.execute(cipherText.getText().toString());
+                        decode_btn.setEnabled(false);
+                        progress_bar.setVisibility(View.VISIBLE);
                     }
                 } else {
                     Toast.makeText(CaesarDecode.this, "Input needed!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
+        paste_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ClipboardManager cbm = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
+                ClipData cd = cbm.getPrimaryClip();
+                ClipData.Item item = cd.getItemAt(0);
+                cipherText.setText(item.getText().toString());
+            }
+        });
+
+        clear_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cipherText.setText("");
+            }
+        });
     }
 
+    //TODO add a loading bar for onProgressUpdate?
+    private class Decode_caesar_text extends AsyncTask<String, Void, String>{
+        @Override
+        protected String doInBackground(String... cipherText){
+            loadingData = true;
+            int key = determine_best_key(cipherText[0]);
+            return caesar_decode_usingkey(cipherText[0], key);
+        }
+
+        @Override
+        protected void onPostExecute(String result){
+            PopUpHelper pop_up = new PopUpHelper(CaesarDecode.this);
+            pop_up.set_and_show_box(result);
+            loadingData = false;
+            progress_bar.setVisibility(View.INVISIBLE);
+            decode_btn.setEnabled(true);
+        }
+    }
     // Create a method that receives a key and decodes the ciphertext using that key
     private static String caesar_decode_usingkey(String cipherText, int key){
         StringBuilder newText = new StringBuilder();
@@ -83,7 +137,7 @@ public class CaesarDecode extends AppCompatActivity{
         return newText.toString();
     }
 
-    private int determine_best_key(String cipherText) throws FileNotFoundException {
+    private int determine_best_key(String cipherText){
         int bestKey = 1;
         double result = 0;
 
@@ -98,7 +152,6 @@ public class CaesarDecode extends AppCompatActivity{
         for (int i = 2; i <= 26; i ++){
             shiftedText = caesar_decode_usingkey(converted_text, i);
             result = calculate_log_probability(get_quadgrams(shiftedText, ngramKey), ngramKey);
-            Log.i("result_calculated", Double.toString(result));
             if (result > bestFitness){
                 bestFitness = result;
                 bestKey = i;
@@ -154,50 +207,21 @@ public class CaesarDecode extends AppCompatActivity{
         return y;
     }
 
-    private double get_quadgram_count(String word, int ngram) throws FileNotFoundException{
+    private double get_quadgram_count(String word, int ngram){
         // Function receives a quadgram and finds the word in the file
         // then returns its count number
         double count = 0;
-        Scanner input = null;
         // Can actually do a check to make sure the word is 4 characters long to
         // save having to do the next step
         if (word.length() != ngram){
             return count;
         }
-
-        if (ngram == 4) {
-            try {
-                DataInputStream textFileStream = new DataInputStream(getAssets().open(String.format("english_quadgrams.txt")));
-                input = new Scanner(textFileStream);
-            }
-            catch (IOException e){
-
-            }
-        } else {
-            try {
-                DataInputStream textFileStream = new DataInputStream(getAssets().open(String.format("english_quintgrams.txt")));
-                input = new Scanner(textFileStream);
-            }
-            catch (IOException e){
-
-            }
-        }
-
-        String str = input.next();
-        while(input.hasNext()){
-            if (str.equalsIgnoreCase(word) == true){
-                count = Double.parseDouble(input.next());
-                break;
-            }
-            str = input.next();
-        }
-        input.close();
-
+        count = db.getFrequency(word);
         return count;
     }
 
     // Now we use the hashmap and the quadgram count to get the overall fitness
-    private double calculate_log_probability(HashMap<String, Integer> a, int ngram) throws FileNotFoundException {
+    private double calculate_log_probability(HashMap<String, Integer> a, int ngram){
         double overall_result = 0;
         for (String key : a.keySet()){
             // Formula is P(word) = count(word)/N

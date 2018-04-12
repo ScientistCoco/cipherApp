@@ -17,7 +17,6 @@ import android.widget.Toast;
 // If a user puts in numbers should these numbers also be shifted?
 
 public class caesarCipher extends AppCompatActivity {
-    private Dialog myDialog;
     private TextView shiftInput;
     private EditText encodeTextInput;
 
@@ -31,7 +30,6 @@ public class caesarCipher extends AppCompatActivity {
         Button encodeBtn = findViewById(R.id.encodeButton);
 
         SeekBar caesarSeek = findViewById(R.id.caesarSeek);
-        myDialog = new Dialog(this);
 
         caesarSeek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int min = 1;
@@ -62,31 +60,8 @@ public class caesarCipher extends AppCompatActivity {
                     String textInput = encodeTextInput.getText().toString();
                     String result = caesarEncode(textInput, shiftValue);
 
-                    myDialog.setContentView(R.layout.pop_up_cipher);
-                    final TextView caesarResult = myDialog.findViewById(R.id.cipherResult);
-
-                    caesarResult.setText(result);
-                    myDialog.show();
-
-                    TextView x_close = myDialog.findViewById(R.id.x_close_btn);
-                    x_close.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            myDialog.dismiss();
-                        }
-                    });
-
-                    TextView copy_btn = myDialog.findViewById(R.id.copy_text);
-                    copy_btn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            ClipboardManager clipboard = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
-                            ClipData clip = ClipData.newPlainText("text", caesarResult.getText().toString());
-                            clipboard.setPrimaryClip(clip);
-                            Toast.makeText(caesarCipher.this, "Copied to clipboard!", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
+                    PopUpHelper pop_up = new PopUpHelper(caesarCipher.this);
+                    pop_up.set_and_show_box(result);
                 } else {
                     Toast.makeText(getApplication(), "You need to put in an input!", Toast.LENGTH_SHORT).show();
                 }
@@ -103,7 +78,7 @@ public class caesarCipher extends AppCompatActivity {
     }
 
     private static String caesarEncode(String text, int shift){
-        StringBuilder encodedString = new StringBuilder();
+        StringBuilder encodedString = new StringBuilder(text.length());
         int newChDec = 0;
         for (int i = 0; i < text.length(); i++){
             int chDec = (int)text.charAt(i);
@@ -117,6 +92,10 @@ public class caesarCipher extends AppCompatActivity {
                 encodedString.append(Character.toString((char) (chDec)));
             }
         }
-        return encodedString.toString();
+
+        String new_string = encodedString.toString();
+        encodedString.setLength(0);
+        encodedString.trimToSize();
+        return new_string;
     }
 }
