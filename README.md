@@ -11,6 +11,6 @@ Main screen:<br>
 <img src = "https://i.imgur.com/jvxIyko.png" width = "50%" height = "50%">
 
 One of the cipher screens:<br>
-<a href = "https://im2.ezgif.com/tmp/ezgif-2-f4d5dcc2c3.gif"></a>
+<a href = "https://i.imgur.com/AjEhrSt.mp4"></a>
 <img src = "https://i.imgur.com/6hETxJ9.png" width = "50%" height = "50%">
 
